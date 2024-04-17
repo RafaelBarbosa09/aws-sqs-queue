@@ -1,0 +1,23 @@
+package com.example.sqs.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.sqs.SqsAsyncClient;
+
+import java.net.URI;
+
+@Configuration
+public class SqsConfig {
+    AwsBasicCredentials credentials = AwsBasicCredentials.create("dummyAccessKeyId", "dummySecretAccessKey");
+
+    @Bean
+    public SqsAsyncClient sqsAsyncClient() {
+        return SqsAsyncClient.builder()
+                .credentialsProvider(() -> credentials)
+                .endpointOverride(URI.create("http://localhost:4566"))
+                .region(Region.SA_EAST_1)
+                .build();
+    }
+}
