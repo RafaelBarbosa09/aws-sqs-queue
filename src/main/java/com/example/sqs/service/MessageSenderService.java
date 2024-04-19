@@ -3,17 +3,17 @@ package com.example.sqs.service;
 import com.example.sqs.dto.Message;
 import com.example.sqs.exception.SendMessageException;
 import io.awspring.cloud.sqs.operations.SqsTemplate;
-import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MessageSenderService {
+    @Value("${queue.url}")
+    private String queueUrl;
     private final SqsTemplate sqsTemplate;
-    private final String queueUrl;
 
     public MessageSenderService(SqsTemplate sqsTemplate) {
         this.sqsTemplate = sqsTemplate;
-        this.queueUrl = "http://localhost:4566/000000000000/minha-fila";
     }
 
     public void sendMessage(Message message) {
